@@ -1,0 +1,89 @@
+
+.categoryBtn {
+    text-transform: capitalize;
+}
+
+.noteText {
+    resize: none;
+    overflow: auto;
+    border: 1px solid #d3d3d3;
+}
+
+.editText {
+    height: 700px;
+}
+
+.noteText,
+.noteText:hover {
+    padding: 5px;
+}
+
+.textLabel .noteText:hover,
+.textLabel .noteText:focus {
+    cursor: text;
+    border: 1px solid #999999;
+}
+
+.labelFather {
+    margin: auto 15px;
+}
+
+.textLabel {
+    width: 100%;
+}
+
+.noteCard {
+    right: -180px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    box-shadow: 2px 2px rgba(0, 0, 0, 0.15);
+    padding: 0;
+    margin-top: 16px;
+    min-width: 250px;
+}
+
+.date,
+.noteCard {
+    background-color: #ffffff;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.noteCard:hover {
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.05);
+}
+
+.confirm {
+    margin-left: 16px;
+    font-size: 14px;
+    visibility: hidden;
+    color: #ff121f;
+}
+
+
+.level {
+    padding: 4px 6px;
+    background-color: transparent;
+    border-color: #ffffff;
+    color: #999999;
+    box-shadow: none;
+    min-width: unset;
+    margin: 0;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    text-shadow: none;
+}
+
+.level:hover {
+    color: #000000;
+}
+
+.container {
+    display: flex; /* or inline-flex */
+    flex-direction: row;
+}
+
+.item {
+    order: 0; /* default is 0 */
+}

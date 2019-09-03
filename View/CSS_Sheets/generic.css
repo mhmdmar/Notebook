@@ -1,0 +1,30 @@
+
+html, body {
+    background-color: #f1f2f3;
+}
+
+.container-fluid {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.hpe-icon {
+    font-size: 16px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.pointerN {
+    cursor: default;
+}
+
+.activeElement {
+    background-color: #ffffff;
+}
+
+.inline {
+    display: inline-block;
+}
+
