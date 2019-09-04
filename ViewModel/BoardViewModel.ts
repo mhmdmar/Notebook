@@ -209,7 +209,7 @@ NB.BoardViewModel = function (): void {
         return dirtyNotes || dirtyCategories;
     });
     self.editCategoryName = function (categories, event): void {
-        self.blueTargetElement(event.currentTarget);
+        self.blueTargetElement(event);
         const oldCategoryName = self.curActiveCategory.name();
         const newCategoryName = prompt("Please enter a new category name", oldCategoryName);
         if (newCategoryName != null) {
@@ -222,7 +222,7 @@ NB.BoardViewModel = function (): void {
         }
     };
     self.removeCategory = function (categories, event) {
-        self.blueTargetElement(event.currentTarget);
+        self.blueTargetElement(event);
         const activeCategoryName: string = self.curActiveCategory.name();
         const confirmDelete = confirm("Are you sure you want to delete " + activeCategoryName + " category ?");
         if (confirmDelete) {
@@ -347,7 +347,7 @@ NB.BoardViewModel.prototype = {
         this.categoriesVM.replace(this.categoriesVM()[index], temp);
         this.activeMoveCategory(index + 1);
     },
-    blueTargetElement: function (target) {
-        target.blur();
+    blueTargetElement: function (event) {
+        event && event.target.blur();
     }
-}
+};

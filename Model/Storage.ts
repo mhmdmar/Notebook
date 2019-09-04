@@ -13,7 +13,7 @@ NB.Storage = {
         }
     },
     checkData: function (): any {
-        if (!this.storedBoard.categories) {
+        if (!this.storedBoard.categories || this.storedBoard.categories.length === 0) {
             this.storedBoard.categories = this.getDefaultCategories();
         }
         if (!this.storedBoard.notes) {
@@ -21,7 +21,7 @@ NB.Storage = {
         }
     },
     getDefaultCategories: function () {
-        return [new NB.Category("General")]
+        return [new NB.Category("General", true)]
     },
     reset: function (): any {
         return {
