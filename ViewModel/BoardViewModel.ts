@@ -27,8 +27,7 @@ NB.BoardViewModel = function (): void {
     };
     self.confirmDelElement = function (id): HTMLElement {
         const selector: string = "[id='" + id + "'] .confirm";
-        const confirmElement: HTMLElement = document.querySelector(selector);
-        return confirmElement
+        return document.querySelector(selector)
     };
 
     // search options
@@ -40,9 +39,9 @@ NB.BoardViewModel = function (): void {
             const content: string = note.content().toLowerCase();
             const date: string = note.lastModifiedTime();
 
-            var sameContent: boolean = false;
-            var sameDate: boolean = false;
-            var sameCategory: boolean = false;
+            let sameContent: boolean = false;
+            let sameDate: boolean = false;
+            let sameCategory: boolean = false;
             if (self.searchByText()) {
                 // match content
                 sameContent = content.includes(self.searchQuery());
@@ -78,7 +77,6 @@ NB.BoardViewModel = function (): void {
         });
 
         const newCategoriesList = JSON.parse(ko.toJSON(self.categoriesVM));
-        newCategoriesList.splice(0, 1); // General category exists only in view model
         NB.board.updateCategories(newCategoriesList);
         NB.board.save();
         unsavedNotesVM = JSON.parse(ko.toJSON(self.NotesVM()));
@@ -131,7 +129,7 @@ NB.BoardViewModel = function (): void {
         self.moveDownCategoryDisabled(index >= self.categoriesVM().length - 1 || index === 0);
     };
 
-    self.changeNoteCategory = function (note, event): void {
+    self.changeNoteCategory = function (note): void {
         self.choosingCategory(true);
 
         function clickEvent(event) {
@@ -140,9 +138,9 @@ NB.BoardViewModel = function (): void {
                 const name = target.innerText;
                 const index: number = NB.board.getIndexById(note.id);
                 const oldNote: any = unsavedNotesVM[index];
-                self.NotesVM()[index].category(name)
+                self.NotesVM()[index].category(name);
                 note.canDiscard(note.category() !== oldNote.category);
-                self.filterBoard()
+                self.filterBoard();
                 event.stopPropagation()
             }
             self.choosingCategory(false);
@@ -150,7 +148,8 @@ NB.BoardViewModel = function (): void {
         }
 
         document.body.addEventListener('click', clickEvent, true);
-    }
+    };
+
     window.onbeforeunload = function (): void {
         const index: number = self.NotesVM.indexOf(self.noteInEditMode());
         NB.Storage.saveChosenNote(index);
@@ -180,20 +179,22 @@ NB.BoardViewModel = function (): void {
             let unSavedNote = unsavedNotesVM[i];
             let note = self.NotesVM()[i];
             for (let attr in unSavedNote) {
-                let noteAttr = self.getObservableValue(note, attr);
-                // attribute to ignore
-                if (!self.attributeToIgnore.includes(attr) && noteAttr !== unSavedNote[attr]) {
-                    return true;
+                if (unSavedNote.hasOwnProperty(attr)) {
+                    let noteAttr = self.getObservableValue(note, attr);
+                    // attribute to ignore
+                    if (!self.attributeToIgnore.includes(attr) && noteAttr !== unSavedNote[attr]) {
+                        return true;
+                    }
                 }
             }
         }
         return false;
-    }
+    };
     self.changeNotesCategoryWithNewOne = function (oldCategory: string, newCategory: string) {
         self.forEachNoteWithCategory(oldCategory, function (note) {
             note.category(newCategory);
         })
-    }
+    };
 
     self.forEachNoteWithCategory = function (category: string, callback: Function) {
         self.forEachNoteVM(function (note) {
@@ -201,7 +202,7 @@ NB.BoardViewModel = function (): void {
                 callback(note);
             }
         });
-    }
+    };
 
     self.canSave = ko.computed(function (): any {
         const dirtyNotes = self.canSaveNotes();
@@ -235,7 +236,7 @@ NB.BoardViewModel = function (): void {
 NB.BoardViewModel.prototype = {
     generalCategoryName: "General",
     forEachNoteVM: function (callback): void {
-        var notesVM = this.NotesVM();
+        let notesVM = this.NotesVM();
         for (let i = 0, len = notesVM.length; i < len; i++) {
             callback(notesVM[i]);
         }
@@ -252,7 +253,7 @@ NB.BoardViewModel.prototype = {
         })
     },
     populateCategories: function (categoriesVM, categories) {
-        categoriesVM.push(new NB.CategoryVM(categories[0].name,true));
+        categoriesVM.push(new NB.CategoryVM(categories[0].name, true));
         for (let i = 1; i < categories.length; i++) {
             const categoryVM = new NB.CategoryVM(categories[i].name);
             categoriesVM.push(categoryVM);
@@ -271,12 +272,10 @@ NB.BoardViewModel.prototype = {
         const newNote: any = new NB.Note(id, this.curActiveCategory.name());
         NB.board.addNote(newNote);
         this.NotesVM.push(new NB.NoteVM(newNote, true));
-        // Remove focus
-        const addButton: HTMLElement = document.getElementById('addBtn');
-        addButton.blur();
+        document.getElementById('addBtn').blur();
     },
     categoryNameExist: function (categoryName) {
-        var exist = false;
+        let exist = false;
         this.forEachCategoriesVM(function (category) {
             if (categoryName === category.name()) {
                 exist = true;
