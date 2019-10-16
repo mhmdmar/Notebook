@@ -1,5 +1,5 @@
 interface Window {
-    NB: any
+  NB: any;
 }
 
 const NB: any = {};

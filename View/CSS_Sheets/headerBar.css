@@ -1,46 +1,53 @@
-
 input.search,
 input.search::placeholder,
 input.search:disabled,
 input.search:hover,
 input.search:focus {
-    color: #ffffff;
-    border-bottom-color: #0079ef;
+  color: #ffffff;
+  border-bottom-color: #0079ef;
 }
 
 #appName {
-    background-color: #014272;
-    color: #ffffff;
-    text-overflow: ellipsis;
-    font-family: MetricWeb-Semibold, Calibri, sans-serif;
-    font-weight: 700;
-    font-size: 22px;
-    display: flex;
-    position: relative;
-    align-items: center;
+  background-color: #014272;
+  color: #ffffff;
+  text-overflow: ellipsis;
+  font-family: MetricWeb-Semibold, Calibri, sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  display: flex;
+  position: relative;
+  align-items: center;
 }
 
 .navbar {
-    border-radius: 0;
-    margin-bottom: 0;
-    background-color: #0079ef;
+  border-radius: 0;
+  margin-bottom: 0;
+  background-color: #0079ef;
 }
 
 .toolbar-container {
-    background-color: #ffffff;
+  background-color: #ffffff;
 }
 
 .nav.navbar-right {
-    border-bottom: 1px solid #ffffff;
-    color: #ffffff;
-    margin-right: 24px;
-    position: absolute;
-    top: 15%;
+  border-bottom: 1px solid #ffffff;
+  color: #ffffff;
+  margin-right: 24px;
+  position: absolute;
+  top: 15%;
 }
 
 .searchCheckBox {
-    float: right;
-    margin-right: 20px;
-    position: inherit;
+  float: right;
+  margin-right: 20px;
+  position: inherit;
 }
 
+.customSelect {
+  border: none;
+  outline: none;
+  vertical-align: baseline;
+}
+.customSelect:focus {
+  color: black;
+}

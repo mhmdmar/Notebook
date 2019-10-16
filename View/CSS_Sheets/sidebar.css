@@ -1,74 +1,77 @@
 /* The sidebar menu */
 .sidenav {
-    height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 160px; /* Set the width of the sidebar */
-    position: absolute; /* Fixed Sidebar (stay in place on scroll) */
-    z-index: 1; /* Stay on top */
-    top: 82px; /* Stay at the top */
-    left: 0;
-    background-color: #ffffff;
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 20px;
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 160px; /* Set the width of the sidebar */
+  position: absolute; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 82px; /* Stay at the top */
+  left: 0;
+  background-color: #ffffff;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
 }
 
 /* The navigation menu links */
 .sidenav a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #000000;
-    display: block;
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #000000;
+  display: block;
 }
 
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-    color: #ff121f;
+  color: #ff121f;
 }
 
 /* Style page content */
 .main {
-    margin-left: 160px; /* Same as the width of the sidebar */
-    padding: 0 10px;
+  margin-left: 160px; /* Same as the width of the sidebar */
+  padding: 0 10px;
 }
 
 div.activeCategory {
-    background-color: #2fd6c3;
+  background-color: #2fd6c3;
 }
-div.activeCategory.generalCategory{
-    background-color: #00cceb;
+div.activeCategory.generalCategory {
+  background-color: #00cceb;
 }
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
-    }
+  .sidenav {
+    padding-top: 15px;
+  }
 
-    .sidenav a {
-        font-size: 18px;
-    }
+  .sidenav a {
+    font-size: 18px;
+  }
 }
 
 .highlight {
-    box-shadow: 0 0 0 99999px rgba(0, 0, 0, .8);
+  box-shadow: 0 0 0 99999px rgba(0, 0, 0, 0.8);
 }
 
 .highlight a {
-    color: #000000;
+  color: #000000;
 }
 
 .generalCategory {
-    border-bottom-style: solid;
-    border-bottom-color: #000000;
+  border-bottom-style: solid;
+  border-bottom-color: #000000;
 }
 
 .disabledButton {
-    color: #000000 !important;
+  color: #000000 !important;
 }
 
-.category, .toolBar, .date, .confirm {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none;
+.category,
+.toolBar,
+.date,
+.confirm {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
 }

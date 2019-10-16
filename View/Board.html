@@ -1,13 +1,13 @@
 <!-- Copyright 2019 Muhammad Haj-Yahya-->
 <!DOCTYPE html>
 <html lang="">
-<head>
-    <link href="CSS_Sheets/boostrap.css" rel="stylesheet">
-    <link href="CSS_Sheets/5.styles.css" rel="stylesheet">
-    <link href="CSS_Sheets/generic.css" rel="stylesheet">
-    <link href="CSS_Sheets/sidebar.css" rel="stylesheet">
-    <link href="CSS_Sheets/headerBar.css" rel="stylesheet">
-    <link href="CSS_Sheets/note.css" rel="stylesheet">
+  <head>
+    <link href="CSS_Sheets/boostrap.css" rel="stylesheet" />
+    <link href="CSS_Sheets/5.styles.css" rel="stylesheet" />
+    <link href="CSS_Sheets/generic.css" rel="stylesheet" />
+    <link href="CSS_Sheets/sidebar.css" rel="stylesheet" />
+    <link href="CSS_Sheets/headerBar.css" rel="stylesheet" />
+    <link href="CSS_Sheets/note.css" rel="stylesheet" />
     <script src="../ViewModel/Libs/jquery-3.3.1.js"></script>
     <script src="../ViewModel/Libs/knockout-3.4.2.js"></script>
     <script src="../NB.js"></script>
@@ -23,154 +23,260 @@
     <script src="../Utils/Keys.js"></script>
     <script src="../ViewModel/KeyboardEvents.js"></script>
     <title>Notebook</title>
-</head>
-<body>
-<div class="container-fluid">
-    <nav class="navbar navbar-default">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <nav class="navbar navbar-default">
         <div class="navbar-header">
-            <span class="navbar-brand pointerN" data-toggle="tab" id="appName">Notebook</span>
+          <span class="navbar-brand pointerN" data-toggle="tab" id="appName"
+            >Notebook</span
+          >
         </div>
         <div class="navbar-body">
-            <div class="nav navbar-nav navbar-right" data-bind="visible: !noteInEditMode()">
-                <div class="input-icon inline">
-                    <input class="search" data-bind="disable: noteInEditMode(), textInput: searchQuery, event: {
+          <div
+            class="nav navbar-nav navbar-right"
+            data-bind="visible: !noteInEditMode()"
+          >
+            <div class="input-icon inline">
+              <input
+                class="search"
+                data-bind="disable: noteInEditMode(), textInput: searchQuery, event: {
         keyup: filterBoard, search: filterBoard }"
-                           placeholder="Search text..." type="Search"/>
-                </div>
-                <span aria-hidden="true" class="hpe-icon pointer"
-                      data-bind="click: resetSearch(), css: { 'hpe-search': !searchQuery(), 'hpe-status-error-filled': searchQuery() }"></span>
+                placeholder="Search text..."
+                type="Search"
+              />
             </div>
+            <span
+              class="hpe-icon pointer"
+              data-bind="click: resetSearch(), css: { 'hpe-search': !searchQuery(), 'hpe-status-error-filled': searchQuery() }"
+            ></span>
+          </div>
         </div>
-    </nav>
-    <div class="toolbar-container">
-        <div class="ux-toolbar-left toolBar" data-bind="visible: !noteInEditMode()">
-            <button aria-label="Add" class="btn btn-link btn-icon button-secondary" data-bind="click: addNote"
-                    id="addBtn" title="Add note (CTRL + t)">
-                <span class="hpe-icon hpe-add"></span>
-            </button>
-            <button aria-label="Save" class="btn btn-link btn-icon button-secondary"
-                    data-bind="enable: canSave(), click: clickSave, css: { active:canSave() }"
-                    title="Save note (CTRL + s)">
-                <span class="hpe-icon hpe-document-verified"></span>
-            </button>
-            <span class="searchCheckBox" style="margin-right: 60px" title="Search by Text">
-											<input data-bind="checked: searchByText" id="text" type="checkbox"
-                                                   value="text">
-												<label for="text">Text</label>
-											</span>
-            <span class="searchCheckBox" title="Search by Date">
-												<input data-bind="checked: searchByDate" id="date" type="checkbox"
-                                                       value="date">
-													<label for="date">Date</label>
-												</span>
+      </nav>
+      <div class="toolbar-container">
+        <div
+          class="ux-toolbar-left toolBar"
+          data-bind="visible: !noteInEditMode()"
+        >
+          <button
+            aria-label="Add"
+            class="btn btn-link btn-icon button-secondary"
+            data-bind="click: addNote"
+            id="addBtn"
+            title="Add note (CTRL + t)"
+          >
+            <span class="hpe-icon hpe-add"></span>
+          </button>
+          <button
+            aria-label="Save"
+            class="btn btn-link btn-icon button-secondary"
+            data-bind="enable: canSave(), click: clickSave, css: { active:canSave() }"
+            title="Save note (CTRL + s)"
+          >
+            <span class="hpe-icon hpe-document-verified"></span>
+          </button>
+          <label title="Sort notes by date in 'Ascending' or 'Descending' order">
+            <select
+              data-bind="options:sortOptions, value: selectedSortOption"
+              class="customSelect ellipsis"
+            >
+            </select>
+          </label>
+          <span
+            class="searchCheckBox"
+            style="margin-right: 60px"
+            title="Search by Text"
+          >
+            <input
+              data-bind="checked: searchByText"
+              id="text"
+              type="checkbox"
+              value="text"
+            />
+            <label for="text">Text</label>
+          </span>
+          <span class="searchCheckBox" title="Search by Date">
+            <input
+              data-bind="checked: searchByDate"
+              id="date"
+              type="checkbox"
+              value="date"
+            />
+            <label for="date">Date</label>
+          </span>
         </div>
-    </div>
+      </div>
 
-    <div class="sidenav" data-bind="visible:!noteInEditMode()">
+      <div class="sidenav" data-bind="visible:!noteInEditMode()">
         <div class="toolbar-container">
-            <div class="ux-toolbar-left toolBar" data-bind="visible: !noteInEditMode()">
-                <button aria-label="EditC" class="btn btn-link btn-icon button-secondary"
-                        data-bind="css : { 'disabledButton' : choosingCategory }, enable:canEditCategory,click: editCategoryName"
-                        title="Edit category">
-                    <span class="hpe-icon hpe-edit"></span>
-                </button>
-                <button aria-label="AddC" class="btn btn-link btn-icon button-secondary"
-                        data-bind="css : { 'disabledButton' : choosingCategory }, click: addCategory"
-                        id="addCategory" title="Add category">
-                    <span class="hpe-icon hpe-add"></span>
-                </button>
-                <button aria-label="Delete" class="btn btn-link btn-icon button-secondary"
-                        data-bind="css : { 'disabledButton' : choosingCategory }, enable:canDeleteCategory,click: removeCategory"
-                        title="Delete category">
-                    <span class="hpe-icon hpe-trash"></span>
-                </button>
-                <button aria-label="MoveUp" class="btn btn-link btn-icon button-secondary"
-                        data-bind="css : { 'disabledButton' : choosingCategory }, disable: moveUpCategoryDisabled, click: categoryMoveUp"
-                        title="Move up">
-                    <span class="hpe-icon hpe-caret-up"></span>
-                </button>
-                <button aria-label="MoveDown" class="btn btn-link btn-icon button-secondary"
-                        data-bind="css : { 'disabledButton' : choosingCategory }, disable: moveDownCategoryDisabled,click: categoryMoveDown"
-                        title="Move down">
-                    <span class="hpe-icon hpe-caret-down"></span>
-                </button>
-            </div>
+          <div
+            class="ux-toolbar-left toolBar"
+            data-bind="visible: !noteInEditMode()"
+          >
+            <button
+              aria-label="EditC"
+              class="btn btn-link btn-icon button-secondary"
+              data-bind="css : { 'disabledButton' : choosingCategory }, enable:canEditCategory,click: editCategoryName"
+              title="Edit category"
+            >
+              <span class="hpe-icon hpe-edit"></span>
+            </button>
+            <button
+              aria-label="AddC"
+              class="btn btn-link btn-icon button-secondary"
+              data-bind="css : { 'disabledButton' : choosingCategory }, click: addCategory"
+              id="addCategory"
+              title="Add category"
+            >
+              <span class="hpe-icon hpe-add"></span>
+            </button>
+            <button
+              aria-label="Delete"
+              class="btn btn-link btn-icon button-secondary"
+              data-bind="css : { 'disabledButton' : choosingCategory }, enable:canDeleteCategory,click: removeCategory"
+              title="Delete category"
+            >
+              <span class="hpe-icon hpe-trash"></span>
+            </button>
+            <button
+              aria-label="MoveUp"
+              class="btn btn-link btn-icon button-secondary"
+              data-bind="css : { 'disabledButton' : choosingCategory }, disable: moveUpCategoryDisabled, click: categoryMoveUp"
+              title="Move up"
+            >
+              <span class="hpe-icon hpe-caret-up"></span>
+            </button>
+            <button
+              aria-label="MoveDown"
+              class="btn btn-link btn-icon button-secondary"
+              data-bind="css : { 'disabledButton' : choosingCategory }, disable: moveDownCategoryDisabled,click: categoryMoveDown"
+              title="Move down"
+            >
+              <span class="hpe-icon hpe-caret-down"></span>
+            </button>
+          </div>
         </div>
 
-        <div data-bind="css : { 'highlight' : choosingCategory }, foreach: { data: categoriesVM, as: 'category'}">
-            <div data-bind="css: { 'generalCategory' : category.name()==='General','activeCategory': category.active()  }">
-                <a class="category" data-bind="text: category.name, click: $root.choseCategory"></a>
-            </div>
+        <div
+          data-bind="css : { 'highlight' : choosingCategory }, foreach: { data: categoriesVM, as: 'category'}"
+        >
+          <div
+            data-bind="css: { 'generalCategory' : category.name()==='General','activeCategory': category.active()  }"
+          >
+            <a
+              class="category"
+              data-bind="text: category.name, click: $root.choseCategory"
+            ></a>
+          </div>
         </div>
-    </div>
-    <div>
-        <div data-bind="visible:!noteInEditMode(), foreach: { data: NotesVM, as: 'note' }">
-            <div data-bind="visible: note.visible()">
-                <div class="col-sm-2 noteCard" data-bind="attr: { id: id }">
-                    <div class="ux-toolbar" role="toolbar">
-                        <div class="ux-toolbar-left">
-                            <button aria-label="Edit" class="btn btn-link btn-icon button-secondary"
-                                    data-bind="click: $root.clickEditNote" title="Edit note (CTRL + e)">
-                                <span class="hpe-icon hpe-edit"></span>
-                            </button>
-                            <button aria-label="Discard" class="btn btn-link btn-icon button-secondary"
-                                    data-bind="enable: note.canDiscard(), click: $root.discardNote, css: {  'active': note.canDiscard() }"
-                                    title="Discard changed (CTRL + r)">
-                                <span class="hpe-icon hpe-refresh"></span>
-                            </button>
-                        </div>
-                        <div class="ux-toolbar-right">
-                            <button aria-label="Category" class="btn btn-link btn-icon button-secondary categoryBtn"
-                                    data-bind="text:note.category,
-                         click: $root.changeNoteCategory" title="Note category"></button>
-                            <button aria-label="Delete" class="btn btn-link btn-icon button-secondary"
-                                    data-bind="click: $root.clickRemoveNote" title="Delete note (CTRL + d)">
-                                <span class="hpe-icon hpe-trash"></span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="labelFather">
-                        <label class="textLabel">
-															<textarea class="noteText" cols="40"
-                                                                      data-bind="textInput: note.content, event: { keyup: $root.contentChange }"
-                                                                      rows="8"></textarea>
-                        </label>
-                    </div>
-                    <p class="date" data-bind="text: note.lastModifiedTime()"></p>
-                    <div class="confirm">
-                        <i>Confirm Delete</i>
-                        <button aria-label="Cancel" class="btn btn-link btn-icon button-secondary"
-                                data-bind="click: $root.cancelRemoveNote" title="Cancel (CTRL + d)">
-                            <span class="hpe-icon hpe-close"></span>
-                        </button>
-                        <button aria-label="Accept" class="btn btn-link btn-icon button-secondary"
-                                data-bind="click: $root.removeNote" title="Delete (CTRL + y)">
-                            <span class="hpe-icon hpe-checkmark"></span>
-                        </button>
-                    </div>
+      </div>
+      <div>
+        <div
+          data-bind="visible:!noteInEditMode(), foreach: { data: NotesVM, as: 'note' }"
+        >
+          <div data-bind="visible: note.visible()">
+            <div class="col-sm-2 noteCard" data-bind="attr: { id: id }">
+              <div class="ux-toolbar" role="toolbar">
+                <div class="ux-toolbar-left">
+                  <button
+                    aria-label="Edit"
+                    class="btn btn-link btn-icon button-secondary"
+                    data-bind="click: $root.clickEditNote"
+                    title="Edit note (CTRL + e)"
+                  >
+                    <span class="hpe-icon hpe-edit"></span>
+                  </button>
+                  <button
+                    aria-label="Discard"
+                    class="btn btn-link btn-icon button-secondary"
+                    data-bind="enable: note.canDiscard(), click: $root.discardNote, css: {  'active': note.canDiscard() }"
+                    title="Discard changed (CTRL + r)"
+                  >
+                    <span class="hpe-icon hpe-refresh"></span>
+                  </button>
                 </div>
+                <div class="ux-toolbar-right">
+                  <button
+                    aria-label="Category"
+                    class="btn btn-link btn-icon button-secondary categoryBtn"
+                    data-bind="text:note.category,
+                         click: $root.changeNoteCategory"
+                    title="Note category"
+                  ></button>
+                  <button
+                    aria-label="Delete"
+                    class="btn btn-link btn-icon button-secondary"
+                    data-bind="click: $root.clickRemoveNote"
+                    title="Delete note (CTRL + d)"
+                  >
+                    <span class="hpe-icon hpe-trash"></span>
+                  </button>
+                </div>
+              </div>
+              <div class="labelFather">
+                <label class="textLabel">
+                  <textarea
+                    class="noteText"
+                    cols="40"
+                    data-bind="textInput: note.content, event: { keyup: $root.contentChange }"
+                    rows="8"
+                  ></textarea>
+                </label>
+              </div>
+              <p class="date" data-bind="text: note.lastModifiedTime()"></p>
+              <div class="confirm">
+                <i>Confirm Delete</i>
+                <button
+                  aria-label="Cancel"
+                  class="btn btn-link btn-icon button-secondary"
+                  data-bind="click: $root.cancelRemoveNote"
+                  title="Cancel (CTRL + d)"
+                >
+                  <span class="hpe-icon hpe-close"></span>
+                </button>
+                <button
+                  aria-label="Accept"
+                  class="btn btn-link btn-icon button-secondary"
+                  data-bind="click: $root.removeNote"
+                  title="Delete (CTRL + y)"
+                >
+                  <span class="hpe-icon hpe-checkmark"></span>
+                </button>
+              </div>
             </div>
+          </div>
         </div>
         <div data-bind="with: noteInEditMode()">
-            <div class="noteCard">
-                <div class="ux-toolbar" role="toolbar">
-                    <div class="ux-toolbar-left">
-                        <button aria-label="Back" class="btn btn-link btn-icon button-secondary"
-                                data-bind="click: $root.backToBoard" title="Back to board">
-                            <span class="hpe-icon hpe-link-previous"></span>
-                        </button>
-                    </div>
-                </div>
-                <div class="labelFather">
-                    <label class="textLabel">
-                        <textarea class="noteText editText" cols="40" data-bind="textInput: content"
-                                  rows="20"></textarea>
-                    </label>
-                </div>
-                <p class="date" data-binnoteTextd="text: note.lastModifiedTime()"></p>
+          <div class="noteCard">
+            <div class="ux-toolbar" role="toolbar">
+              <div class="ux-toolbar-left">
+                <button
+                  aria-label="Back"
+                  class="btn btn-link btn-icon button-secondary"
+                  data-bind="click: $root.backToBoard"
+                  title="Back to board"
+                >
+                  <span class="hpe-icon hpe-link-previous"></span>
+                </button>
+              </div>
             </div>
+            <div class="labelFather">
+              <label class="textLabel">
+                <textarea
+                  class="noteText editText"
+                  cols="40"
+                  data-bind="textInput: content"
+                  rows="20"
+                ></textarea>
+              </label>
+            </div>
+            <p
+              class="date"
+              data-binnoteTextd="text: note.lastModifiedTime()"
+            ></p>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-</body>
+  </body>
 </html>
