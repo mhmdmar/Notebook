@@ -16,12 +16,23 @@ NB.BoardViewModel = function(): void {
   self.selectedSortOption = ko.observable();
   self.sort = {
     Ascending: function(note1, note2) {
-      return note1.timestamp() - note2.timestamp();
+      const timestamp = "timestamp";
+      const note1Time = self.getObservableValue(note1, timestamp);
+      const note2Time = self.getObservableValue(note2, timestamp);
+
+      return note1Time - note2Time;
     },
     Descending: function(note1, note2) {
-      return note2.timestamp() - note1.timestamp();
+      const timestamp = "timestamp";
+      const note1Time = self.getObservableValue(note1, timestamp);
+      const note2Time = self.getObservableValue(note2, timestamp);
+      return note2Time - note1Time;
     }
   };
+  self.selectedSortOption.subscribe(function(sortOrder) {
+    unsavedNotesVM = unsavedNotesVM.sort(self.sort[sortOrder.toLowerCase()]);
+    self.NotesVM(self.NotesVM().sort(self.sort[sortOrder]));
+  });
 
   // remove Note
   self.clickRemoveNote = function(note): void {
@@ -99,16 +110,12 @@ NB.BoardViewModel = function(): void {
     const newCategoriesList = JSON.parse(ko.toJSON(self.categoriesVM));
     NB.board.updateCategories(newCategoriesList);
     NB.board.save();
+
+    // trigger sort
+    self.selectedSortOption(self.sortOptions()[0]);
     unsavedNotesVM = JSON.parse(ko.toJSON(self.NotesVM()));
     unsavedCategoriesVM = JSON.parse(ko.toJSON(self.categoriesVM));
 
-    self.selectedSortOption.subscribe(function(sortOrder) {
-      self.NotesVM(self.NotesVM().sort(self.sort[sortOrder]));
-      unsavedNotesVM.sort(self.sort[sortOrder]);
-    });
-    
-    // trigger sort
-    self.selectedSortOption(self.sortOptions()[0]);
     // Trigger computed event
     self.NotesVM.valueHasMutated();
   };
@@ -203,13 +210,14 @@ NB.BoardViewModel = function(): void {
     }
     return false;
   };
-  self.canSaveNotes = function() {
-    if (unsavedNotesVM.length !== self.NotesVM().length) {
+  self.canSaveNotes = ko.computed(function() {
+    const notesVM = self.NotesVM();
+    if (unsavedNotesVM.length !== notesVM.length) {
       return true;
     }
     for (let i = 0; i < unsavedNotesVM.length; i++) {
       let unSavedNote = unsavedNotesVM[i];
-      let note = self.NotesVM()[i];
+      let note = notesVM[i];
       for (let attr in unSavedNote) {
         if (unSavedNote.hasOwnProperty(attr)) {
           let noteAttr = self.getObservableValue(note, attr);
@@ -224,7 +232,7 @@ NB.BoardViewModel = function(): void {
       }
     }
     return false;
-  };
+  });
   self.changeNotesCategoryWithNewOne = function(
     oldCategory: string,
     newCategory: string
@@ -305,12 +313,10 @@ NB.BoardViewModel.prototype = {
     }
   },
   getObservableValue: function(observable, attr): any {
-    // if attribute isn't an observable
-    try {
-      return observable[attr]();
-    } catch (e) {
-      return observable[attr];
-    }
+    // if attribute isn't an observable return actual value
+    return typeof observable[attr] === "function"
+      ? observable[attr]()
+      : observable[attr];
   },
   addNote: function(): void {
     const id: number = NB.board.getNextId();
