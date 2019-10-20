@@ -14,18 +14,15 @@ NB.BoardViewModel = function(): void {
 
   self.sortOptions = ko.observableArray(["Ascending", "Descending"]);
   self.selectedSortOption = ko.observable();
-  self.sort = {};
-  self.sort.Ascending = function(note1, note2) {
-    return note1.timestamp() - note2.timestamp();
+  self.sort = {
+    Ascending: function(note1, note2) {
+      return note1.timestamp() - note2.timestamp();
+    },
+    Descending: function(note1, note2) {
+      return note2.timestamp() - note1.timestamp();
+    }
   };
-  self.sort.Descending = function(note1, note2) {
-    return note2.timestamp() - note1.timestamp();
-  };
-  self.selectedSortOption.subscribe(function(newValue) {
-    self.NotesVM(self.NotesVM().sort(self.sort[newValue]));
-  });
-  // trigger sort
-  self.selectedSortOption(self.sortOptions()[0]);
+
   // remove Note
   self.clickRemoveNote = function(note): void {
     const confirmElement: HTMLElement = self.confirmDelElement(note.id);
@@ -104,6 +101,14 @@ NB.BoardViewModel = function(): void {
     NB.board.save();
     unsavedNotesVM = JSON.parse(ko.toJSON(self.NotesVM()));
     unsavedCategoriesVM = JSON.parse(ko.toJSON(self.categoriesVM));
+
+    self.selectedSortOption.subscribe(function(sortOrder) {
+      self.NotesVM(self.NotesVM().sort(self.sort[sortOrder]));
+      unsavedNotesVM.sort(self.sort[sortOrder]);
+    });
+    
+    // trigger sort
+    self.selectedSortOption(self.sortOptions()[0]);
     // Trigger computed event
     self.NotesVM.valueHasMutated();
   };
