@@ -30,7 +30,7 @@ NB.BoardViewModel = function(): void {
     }
   };
   self.selectedSortOption.subscribe(function(sortOrder) {
-    unsavedNotesVM = unsavedNotesVM.sort(self.sort[sortOrder.toLowerCase()]);
+    unsavedNotesVM = unsavedNotesVM.sort(self.sort[sortOrder]);
     self.NotesVM(self.NotesVM().sort(self.sort[sortOrder]));
   });
 
@@ -111,8 +111,6 @@ NB.BoardViewModel = function(): void {
     NB.board.updateCategories(newCategoriesList);
     NB.board.save();
 
-    // trigger sort
-    self.selectedSortOption(self.sortOptions()[0]);
     unsavedNotesVM = JSON.parse(ko.toJSON(self.NotesVM()));
     unsavedCategoriesVM = JSON.parse(ko.toJSON(self.categoriesVM));
 
@@ -197,6 +195,7 @@ NB.BoardViewModel = function(): void {
   let unsavedNotesVM: any = JSON.parse(ko.toJSON(self.NotesVM()));
   let unsavedCategoriesVM: any = JSON.parse(ko.toJSON(self.categoriesVM()));
 
+  self.selectedSortOption(self.sortOptions()[0]);
   self.canSaveCategories = function() {
     if (unsavedCategoriesVM.length !== self.categoriesVM().length) {
       return true;
