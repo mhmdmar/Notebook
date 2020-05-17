@@ -30,7 +30,19 @@ body {
 
 .ellipsis {
   text-overflow: ellipsis;
-  /* Required for text-overflow to do anything */
   white-space: nowrap;
+  overflow: hidden;
+}
+
+.toolbar-items-container {
+  position: inherit;
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.flex-right-side {
+  display: flex;
+  margin-left: auto;
   overflow: hidden;
 }

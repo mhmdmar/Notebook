@@ -75,7 +75,9 @@
           >
             <span class="hpe-icon hpe-document-verified"></span>
           </button>
-          <label title="Sort notes by date in 'Ascending' or 'Descending' order">
+          <label
+            title="Sort notes by date in 'Ascending' or 'Descending' order"
+          >
             <select
               data-bind="options:sortOptions, value: selectedSortOption"
               class="customSelect ellipsis"
@@ -177,7 +179,7 @@
           <div data-bind="visible: note.visible()">
             <div class="col-sm-2 noteCard" data-bind="attr: { id: id }">
               <div class="ux-toolbar" role="toolbar">
-                <div class="ux-toolbar-left">
+                <div class="toolbar-items-container">
                   <button
                     aria-label="Edit"
                     class="btn btn-link btn-icon button-secondary"
@@ -194,23 +196,21 @@
                   >
                     <span class="hpe-icon hpe-refresh"></span>
                   </button>
-                </div>
-                <div class="ux-toolbar-right">
-                  <button
-                    aria-label="Category"
-                    class="btn btn-link btn-icon button-secondary categoryBtn"
-                    data-bind="text:note.category,
-                         click: $root.changeNoteCategory"
-                    title="Note category"
-                  ></button>
-                  <button
-                    aria-label="Delete"
-                    class="btn btn-link btn-icon button-secondary"
-                    data-bind="click: $root.clickRemoveNote"
-                    title="Delete note (CTRL + d)"
-                  >
-                    <span class="hpe-icon hpe-trash"></span>
-                  </button>
+                  <div class="flex-right-side">
+                    <button
+                      aria-label="Delete"
+                      class="btn btn-link btn-icon button-secondary"
+                      data-bind="click: $root.clickRemoveNote"
+                      title="Delete note (CTRL + d)"
+                    >
+                      <span class="hpe-icon hpe-trash"></span>
+                    </button>
+                    <button
+                      aria-label="Category"
+                      class="btn btn-link btn-icon button-secondary categoryBtn ellipsis"
+                      data-bind="click: $root.changeNoteCategory,text:note.category,attr: { title: note.category }"
+                    ></button>
+                  </div>
                 </div>
               </div>
               <div class="labelFather">
